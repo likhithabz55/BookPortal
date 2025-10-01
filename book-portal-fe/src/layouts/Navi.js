@@ -66,6 +66,7 @@ const Navi = () => {
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => onChangeLanguage("tr")}><Flag name="tr" />{t("Turkish")}</Dropdown.Item>
               <Dropdown.Item onClick={() => onChangeLanguage("en")}><Flag name="gb" />{t("English")}</Dropdown.Item>
+              <Dropdown.Item onClick={() => onChangeLanguage("de")}><Flag name="de" />{t("German")}</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           {isAuthenticated ? <SignedIn signOut={handleSignOut} /> : <SignedOut signIn={handleSignIn} />}
