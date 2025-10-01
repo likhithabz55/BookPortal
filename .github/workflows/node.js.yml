@@ -76,4 +76,4 @@ jobs:
           context: ./nginx
           file: ./nginx/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-proxy:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/book-proxy:latest

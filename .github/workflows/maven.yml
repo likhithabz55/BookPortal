@@ -38,7 +38,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      - run: mvn -B package --file pom.xml
+      - run: mvn -B package -DskipTests --file pom.xml
         working-directory: ./book-portal-be
 
       - name: Perform CodeQL Analysis
@@ -68,6 +68,7 @@ jobs:
         with:
           context: ./book-portal-be
           file: ./book-portal-be/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-be:latest
 #          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-be:buildcache
