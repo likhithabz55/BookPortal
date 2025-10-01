@@ -22,13 +22,16 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           # AWS EC2 Instance id or ids
           instance-ids: ${{ secrets.AWS_INSTANCE_ID }}
+          #docker hub username
+          username: ${{secrets.DOCKER_HUB_USERNAME}}
           # Command execution location
           working-directory: /home/ec2-user
           # Bash command you want to execute
           command: |
-            sudo docker-compose stop
-            sudo docker-compose rm -f
-            sudo docker-compose pull
+            sudo docker-compose down
+            docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-be:latest
+            docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:latest
+            docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-proxy:latest
             sudo docker-compose up -d
             sudo docker image prune -af
           # Comment for Send-Command
