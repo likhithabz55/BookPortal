@@ -65,6 +65,7 @@ jobs:
         with:
           context: ./book-portal-fe
           file: ./book-portal-fe/Dockerfile
+          platforms: linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:latest
 #          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:buildcache
@@ -75,5 +76,6 @@ jobs:
         with:
           context: ./nginx
           file: ./nginx/Dockerfile
+          platforms: linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/book-proxy:latest

@@ -22,8 +22,8 @@ jobs:
           script: |
             sudo docker-compose down
             docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-be:latest
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:latest
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/book-proxy:latest
+            docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:latest
+            docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-proxy:latest
             sudo docker-compose up -d
             sudo docker image prune -af
           # Comment for Send-Command
