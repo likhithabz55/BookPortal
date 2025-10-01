@@ -3,7 +3,6 @@ services:
     build:
       context: ./book-portal-be
     platform: linux/arm64
-#    image: ./book-portal-be:latest
     container_name: "book-portal-be"
     depends_on:
       mysql:
