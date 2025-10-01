@@ -12,23 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: AWS SSM Send-Command
-        uses: peterkimzz/aws-ssm-send-command@v1.1.1
+      - name: SSH and Deploy Docker Images
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          # AWS access key id
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # AWS secret access key
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # Where EC2 instance is
-          aws-region: ${{ secrets.AWS_REGION }}
-          # AWS EC2 Instance id or ids
-          instance-ids: ${{ secrets.AWS_INSTANCE_ID }}
-          #docker hub username
-          username: ${{secrets.DOCKER_HUB_USERNAME}}
-          # Command execution location
-          working-directory: /home/ec2-user
-          # Bash command you want to execute
-          command: |
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
             sudo docker-compose down
             docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-be:latest
             docker pull --platform linux/arm64 ${{ secrets.DOCKER_HUB_USERNAME }}/book-portal-fe:latest
