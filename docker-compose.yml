@@ -1,17 +1,49 @@
-version: "3"
 services:
   book-portal-be:
-    image: ugurcanerdogan/book-portal-be:latest
+    build:
+      context: ./book-portal-be
+    platform: linux/arm64
     container_name: "book-portal-be"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    environment:
+      DB_HOST: mysql
+      DB_USERNAME: <username>
+      DB_PASSWORD: <password>
 
   book-portal-fe:
-    image: ugurcanerdogan/book-portal-fe:latest
+    build:
+      context: ./book-portal-fe
+    platform: linux/arm64
     container_name: "book-portal-fe"
     depends_on:
       - book-portal-be
+
   proxy:
-    image: ugurcanerdogan/book-portal-proxy:latest
+    build:
+      context: ./nginx
     container_name: "book-portal-proxy"
+    depends_on:
+      - book-portal-fe
     restart: always
     ports:
       - "80:80"
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: book_portal
+      MYSQL_USER: uqi
+      MYSQL_PASSWORD: Deneme123..
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dbData:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppwd" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10

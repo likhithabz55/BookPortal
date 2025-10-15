@@ -1,0 +1,28 @@
+services:
+  book-portal-be:
+    image: 211125554285.dkr.ecr.us-west-2.amazonaws.com/midterm/book-portal:book-portal-be_latest
+    platform: linux/arm64
+    container_name: "book-portal-be"
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  book-portal-fe:
+    image: 211125554285.dkr.ecr.us-west-2.amazonaws.com/midterm/book-portal:book-portal-fe_latest
+    platform: linux/arm64
+    container_name: "book-portal-fe"
+    depends_on:
+      - book-portal-be
+
+  proxy:
+    image: 211125554285.dkr.ecr.us-west-2.amazonaws.com/midterm/book-portal:book-portal-proxy_latest
+    container_name: "book-portal-proxy"
+    depends_on:
+      - book-portal-fe
+    restart: always
+    ports:
+      - "80:80"
